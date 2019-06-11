@@ -68,7 +68,7 @@
   export default {
     data(){
       return{
-        url:'/products/',
+        url:'/products',
         errors:{provider:'',model:'',color:''},
         list:[],
       }
