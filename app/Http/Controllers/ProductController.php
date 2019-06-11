@@ -41,7 +41,7 @@ class ProductController extends Controller
     {
         $request->validate([
           'provider' => 'required',
-          'imei' => 'required',
+          'imei' => 'required|unique:products',
           'purcharse_price' => 'required',
           'sale_price' => 'required',
           'brand' => 'required',
