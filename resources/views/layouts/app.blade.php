@@ -23,6 +23,7 @@
 </head>
 <body>
     <div id="app">
+      
       {{-- <app-component></app-component> --}}
       {{-- <main class="py-4"> --}}
           @yield('content')
