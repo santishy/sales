@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::resource('products','ProductController');
 Route::get('last-ten-products','ProductController@lastTenProducts');
 Auth::routes();
