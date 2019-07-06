@@ -91,8 +91,6 @@
         }).then((response)=>{
           this.setProduct({});
           toastr.success('Se modifico correctamente el producto');
-
-
           // Regresar scroll al primer input en el form
 
           document.querySelector("#provider").scrollIntoView({behavior:'smooth'});

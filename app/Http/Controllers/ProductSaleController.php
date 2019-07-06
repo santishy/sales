@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\ProductSale;
+use App\Product;
 use App\Rules\validatProductForSale;
 use Illuminate\Http\Request;
 //use App\Events\ProductForSaleEvent;
@@ -23,5 +24,10 @@ class ProductSaleController extends Controller
       // y ponga de nuevo las existencias en uno, o en cero dependiendo el caso
       //event(new ProductForSaleEvent($request->sale));
       return $productSale;
+    }
+    public function update(Request $request,$id){
+      //return $request->all();
+      return ProductSale::where('id',$id)
+                          ->update($request->all());
     }
 }

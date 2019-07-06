@@ -10960,3 +10960,7 @@ button.toast-close-button {
   opacity: 0;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+

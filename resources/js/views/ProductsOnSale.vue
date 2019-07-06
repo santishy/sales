@@ -15,16 +15,15 @@
           <th>Acciones</th>
         </thead>
         <tbody>
-          <tr v-for="product in products">
+          <tr v-for="(product,index) in products">
             <td>{{product.imei}}</td>
             <td>{{product.brand}}</td>
-            <td>{{product.model}}</td>
-            <td>{{product.pivot.price}}</td>
+            <td>{{product.model}}
+            </td>
+            <td>{{product.pivot.price}}
+            </td>
             <td>
-              <transition-group name="slide-fade" mode="out-in">
-                <button class="btn btn-primary btn-small" v-if="btn" type="button" name="button" :key="'btn'" @click="change(false)"><i class="fas fa-edit"></i></button>
-                <input class="form-control" v-else :keyup.13="change(false)" v-show="!btn" type="number" name="" :key="'price'" value="product.privot.price">
-              </transition-group>
+               <i class="far fa-edit fa-2x cursor-pointer" :data-index="parseInt(index,10)" :data-product="JSON.stringify(product)"  name="button" :key="product.id" @click="changePrice"></i>
             </td>
           </tr>
         </tbody>
@@ -32,18 +31,28 @@
     </div>
   </div>
 </template>
-
 <script>
+import SearchProductComponent from '../components/products/SearchProductComponent';
+import UpdateInputComponent from '../components/product_sale/UpdateInputComponent';
 export default {
   data(){
     return {
         products:[],
-        btn:true
+        ban:true,
+        num:0,
+        on:{
+          newprice:function(event){
+            console.log('hola mundo')
+          }
+        }
     }
 
   },
   created(){
     this.getProductsOnSale();
+  },
+  components:{
+    SearchProductComponent
   },
   methods:{
     getProductsOnSale(){
@@ -51,19 +60,46 @@ export default {
         url:'product_sale',
         method:'GET'
       }).then((response)=>{
-        console.log(response.data)
         this.products = response.data;
       }).catch((error)=>{
         console.log(error)
       })
     },
-    change(val){
-      this.btn=val;
-      console.log("esto es val: "+val)
-    }
+    getPrice(event)
+    {
+      console.log('este es un emit '+event[0])
+    },
+    changePrice(event){
+      var parent,child;
+      /*
+        Anteriormente tenia un boton y dentro de este un icono en un span, es por eso
+        que tuve que crear esta logica para capturar el evente cuando diera click
+        sobre el boton o el span
+      */
+      if(event.toElement.classList[0] == 'far')// parrafo de arriba lo explica
+      {
+        console.log(event)
+        parent = event.toElement.parentNode.parentNode.children[3];
+        child = event.toElement;
+      }
+      else
+      {
+        parent = event.toElement.parentNode.parentNode;
+        child = event.toElement.parentNode;
+      }
+        var componentClass = Vue.extend(UpdateInputComponent);
+        var instance = new componentClass({
+          propsData:{
+            product:JSON.parse(child.dataset.product),
+            index:child.dataset.index,
+          },
+          parent:this
+        });
+        instance.$mount();
+        instance.$on('newPrice:event',this.getPrice);
+        parent.appendChild(instance.$el);
+        child.style.display="none";
+    },
   }
 }
 </script>
-
-<style lang="css" scoped>
-</style>

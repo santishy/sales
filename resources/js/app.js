@@ -20,6 +20,7 @@ window.Vuex = require('vuex');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('sale-button-component',require('./components/sales/SaleButtonComponent.vue').default);
+Vue.component('update-input',require('./components/product_sale/UpdateInputComponent.vue').default);
 Vue.component('InfiniteLoading',require('vue-infinite-loading'));
 Vue.component('app-component', require('./components/AppComponent.vue').default);
 Vue.component('table-products',require('./components/products/TableOfAddedProductsComponent.vue').default);
@@ -128,5 +129,6 @@ import VueRouter from './routes.js'
 const app = new Vue({
     el: '#app',
     router:VueRouter,
-    store
+    store,
+    
 });
